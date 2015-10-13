@@ -402,9 +402,42 @@ Array.prototype.map = function(callback){
 
 // 12. create a jquery promise/deferred object that will resolve true, and execute an associated callback, after 1 second. 
 
+
+var deferred = new jquery.Deferred()
+deferred.done(function(){alert('done')})
+setTimeOut(deferred.resolve.bind(deferred),10000)
+
+
 // 13. create a constructor called Place. the important methods on place are .fetchData() and .getCoords(). fetchData should take the name of a place as input, make a request to an api of your choosing (hint: googlemaps geocoding), and store the latitude and longitude of the place in an object, retrievable with the getCoords method. 
 
 
+var Place = function() {
+
+    this.url = "https://maps.googleapis.com/maps/api/geocode/json"
+
+}
+
+Place.prototype = {
+
+
+    fetchData: function(placeName){
+        jquery.ajax({
+            url: this.url,
+            data:{
+                address: placeName
+            }
+        }).done(function(responseData){
+            this.responseData = responseData
+        })
+    },
+
+    getCoords: function(){
+
+        var coordsObj = this.responseData.results[0].geometry.location
+            return coordsObj
+
+    }
+}
 
 
 
